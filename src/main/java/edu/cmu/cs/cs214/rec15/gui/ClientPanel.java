@@ -3,6 +3,10 @@
  */
 package edu.cmu.cs.cs214.rec15.gui;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,10 +35,6 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	private final JButton startButton;
 	private final JButton sendButton;
 	
-	private final JPanel startPanel;
-	private final JPanel userInfoPanel;
-	private final JPanel sendPanel;
-	
 	/**
 	 * Constructor for ClientPanel takes in an instance of the ChatClient
 	 * that it will be representing.
@@ -54,24 +54,45 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		
 		startButton = new JButton("Start");
 		sendButton = new JButton("Send");
-		
-		startPanel = createStartPanel();
-		userInfoPanel = createUserInfoPanel();
-		sendPanel = createSendPanel();
+	
+		this.add(createStartPanel(), BorderLayout.NORTH);
+		this.add(createSendPanel(), BorderLayout.SOUTH);
 	}
 	
 	private JPanel createStartPanel() {
 		JPanel panel = new JPanel();
+		panel.setLayout(new FlowLayout());
+		panel.add(createUserInfoPanel());
+		panel.add(startButton);
 		return panel;
 	}
 	
 	private JPanel createUserInfoPanel() {
 		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		JPanel namePanel = new JPanel();
+		namePanel.setLayout(new FlowLayout());
+		namePanel.add(this.usernameLabel);
+		namePanel.add(this.usernameField);
+		panel.add(namePanel);
+		JPanel portPanel = new JPanel();
+		portPanel.setLayout(new FlowLayout());
+		portPanel.add(this.portLabel);
+		portPanel.add(this.portField);
+		panel.add(portPanel);
+		JPanel ipPanel = new JPanel();		
+		ipPanel.setLayout(new FlowLayout());
+		ipPanel.add(this.ipLabel);
+		ipPanel.add(this.ipField);
+		panel.add(ipPanel);
 		return panel;
 	}
 	
 	private JPanel createSendPanel() {
 		JPanel panel = new JPanel();
+		panel.setLayout(new FlowLayout());
+		panel.add(this.messageField);
+		panel.add(this.sendButton);
 		return panel;
 	}
 
