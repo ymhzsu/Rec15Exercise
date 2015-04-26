@@ -19,11 +19,11 @@ SERVER: Listening for incoming commands on port 15214.
 ```
 
 #####Running a Client
-To run the client, run the `Main` class in the `edu.cmu.cs.cs214.rec15` package.
+To run the client, run the `Main` class in the `edu.cmu.cs.cs214.rec15` package. Once you run the client, a Java application will open.
 
 ### Connecting to a Server
 ------
-Once you run the client, a Java application will open. You will not be able to send messages until you connect to a chat server. 
+You will not be able to send messages until you connect to a chat server. 
 In order to connect to a server, you will be prompted for the following information:
 
 |Textbox    |Description                                                                          |
