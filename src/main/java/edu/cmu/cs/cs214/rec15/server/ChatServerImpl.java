@@ -71,6 +71,12 @@ public class ChatServerImpl extends Thread implements ChatServer {
 
 
     @Override
+    public void startServer() {
+        this.start();
+    }
+
+
+    @Override
     public int getNumClients() {
         return clients.size();
     }
@@ -81,6 +87,12 @@ public class ChatServerImpl extends Thread implements ChatServer {
         return (ArrayList<Message>) Collections.unmodifiableList(messages);
     }
 
+    /**
+     * Handler for every client connection to the server.
+     * 
+     * @author tsun
+     *
+     */
     private static class ClientHandler implements Runnable {
         private final Socket socket;
 
@@ -128,10 +140,5 @@ public class ChatServerImpl extends Thread implements ChatServer {
             }
         }
 
-    }
-
-
-    public static void main(String[] args) {
-        (new ChatServerImpl(15214)).start();
     }
 }
