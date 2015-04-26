@@ -66,6 +66,7 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		JScrollPane scrollPane = new JScrollPane(chatArea);
 		
 		startButton = new JButton("Start");
+		startButton.addActionListener(new StartChatListener(usernameField, portField, ipField, client));
 		sendButton = new JButton("Send");
 	
 		this.add(createStartPanel(), BorderLayout.NORTH);

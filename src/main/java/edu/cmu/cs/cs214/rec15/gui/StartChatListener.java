@@ -6,6 +6,8 @@ package edu.cmu.cs.cs214.rec15.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JTextField;
+
 import edu.cmu.cs.cs214.rec15.client.ChatClient;
 import edu.cmu.cs.cs214.rec15.client.ClientChangeListener;
 
@@ -16,18 +18,18 @@ import edu.cmu.cs.cs214.rec15.client.ClientChangeListener;
 public class StartChatListener implements ActionListener {
 	
 	private ChatClient mClient;
-	private String mName;
-	private String mIP;
-	private String mPort;
+	private JTextField mName;
+	private JTextField mIP;
+	private JTextField mPort;
 
 	/**
 	 * 
 	 */
-	public StartChatListener(String name, String port, String ip, ChatClient client) {
-		mName = name;
+	public StartChatListener(JTextField nameField, JTextField portField, JTextField IPField, ChatClient client) {
+		mName = nameField;
 		mClient = client;
-		mIP = ip;
-		mPort = port;
+		mIP = IPField;
+		mPort = portField;
 		
 		// TODO: add validation...
 	}
@@ -37,8 +39,8 @@ public class StartChatListener implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		mClient.setUsername(mName);
-		mClient.connectToServer(mIP, Integer.parseInt(mPort));
+		mClient.setUsername(mName.getText());
+		mClient.connectToServer(mIP.getText(), Integer.parseInt(mPort.getText()));
 	}
 
 }
