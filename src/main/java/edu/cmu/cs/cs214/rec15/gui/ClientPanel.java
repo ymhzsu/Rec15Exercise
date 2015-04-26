@@ -31,6 +31,10 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	private final JButton startButton;
 	private final JButton sendButton;
 	
+	private final JPanel startPanel;
+	private final JPanel userInfoPanel;
+	private final JPanel sendPanel;
+	
 	/**
 	 * Constructor for ClientPanel takes in an instance of the ChatClient
 	 * that it will be representing.
@@ -50,6 +54,25 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		
 		startButton = new JButton("Start");
 		sendButton = new JButton("Send");
+		
+		startPanel = createStartPanel();
+		userInfoPanel = createUserInfoPanel();
+		sendPanel = createSendPanel();
+	}
+	
+	private JPanel createStartPanel() {
+		JPanel panel = new JPanel();
+		return panel;
+	}
+	
+	private JPanel createUserInfoPanel() {
+		JPanel panel = new JPanel();
+		return panel;
+	}
+	
+	private JPanel createSendPanel() {
+		JPanel panel = new JPanel();
+		return panel;
 	}
 
 	/* (non-Javadoc)
