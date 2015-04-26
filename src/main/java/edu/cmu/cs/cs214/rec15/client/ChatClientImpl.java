@@ -42,7 +42,6 @@ public class ChatClientImpl extends Thread implements ChatClient {
         try {
             Message msg = new Message(message, username);
             out.writeObject(msg);
-            this.notifyListenersMessageSent(msg.getSender(), msg.getContent());
             return true;
         } catch (SocketException e) {
             try {
