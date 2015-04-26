@@ -69,18 +69,18 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		scrollPane = new JScrollPane(chatArea);
 		
 		startButton = new JButton("Start");
-		startButton.addActionListener(new StartChatListener(usernameField, portField, ipField, client));
 		
 		sendButton = new JButton("Send");
-		sendButton.addActionListener(new SendMessageListener(messageField, client));
 	
 		this.add(createStartPanel(), BorderLayout.NORTH);
 		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(createSendPanel(), BorderLayout.SOUTH);
 		
-		this.messageField.setEnabled(false);
-		scrollPane.setEnabled(false);
-		this.sendButton.setEnabled(false);
+		//this.messageField.setEnabled(false);
+		//scrollPane.setEnabled(false);
+		//this.sendButton.setEnabled(false);
+		sendButton.addActionListener(new SendMessageListener(messageField, client));
+		startButton.addActionListener(new StartChatListener(usernameField, portField, ipField, client));
 	}
 	
 	private JPanel createStartPanel() {
@@ -128,16 +128,16 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		this.messageField.setEnabled(true);
 		this.scrollPane.setEnabled(true);
 		this.sendButton.setEnabled(true);
-
+		this.messageField.requestFocus();
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.cmu.cs.cs214.rec15.gui.ClientChangeListener#messageReceived(java.lang.String)
 	 */
 	@Override
-	public void messageReceived(String message) {
-		// TODO Auto-generated method stub
-
+	public void messageReceived(String username, String message) {
+		String newText = String.format(" %s: %s\n", username, message);
+		this.chatArea.append(newText);
 	}
 
 }

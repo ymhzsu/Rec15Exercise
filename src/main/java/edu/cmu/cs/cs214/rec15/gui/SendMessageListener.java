@@ -34,8 +34,10 @@ public class SendMessageListener implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		// attempt to send message
 		if (chatClient.sendMessage(message.getText())){
+			System.out.println(message.getText());
 			// if the message was sent successfully, clear out the field
 			message.setText("");
+			message.requestFocus();
 		}
 		else {
 			// TODO : print out some error message saying the message could not be sent.

@@ -89,9 +89,8 @@ public class ChatClientImpl extends Thread implements ChatClient {
             return;
         }
         
-        notifyListenersConnectedToServer(host, port);
-        
         this.start();
+        //notifyListenersConnectedToServer(host, port);
     }
 
 
@@ -108,6 +107,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
                 ObjectInputStream in = new ObjectInputStream(
                         socket.getInputStream());
                 Message msg = (Message) in.readObject();
+                this.notifyListenersMessageSent(msg.getContent());
                 System.out.println(msg);
                 System.out.println();
             }
@@ -184,13 +184,23 @@ public class ChatClientImpl extends Thread implements ChatClient {
     }
     
     /**
-     * notify all ClientChangeListeners of successful connection to server
+     * notify all listeners of successful connection to server
      * @param host IP address of the ChatServer
      * @param port being used by the ChatServer
      */
     private void notifyListenersConnectedToServer(String host, int port) {
     	for (ClientChangeListener listener : this.listeners) {
     		listener.startChat(getUsername(), Integer.toString(port), host);
+    	}
+    }
+    
+    /**
+     * notify all listeners that a message was sent
+     * @param message text of message being sent
+     */
+    private void notifyListenersMessageSent(String message) {
+    	for (ClientChangeListener listener : this.listeners) {
+    		listener.messageReceived(getUsername(), message);
     	}
     }
 }

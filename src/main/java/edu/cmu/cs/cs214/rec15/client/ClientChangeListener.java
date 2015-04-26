@@ -14,5 +14,5 @@ public interface ClientChangeListener {
 	 * Called when a new message is received
 	 * @param message text of new message being received
 	 */
-	void messageReceived(String message);
+	void messageReceived(String username, String message);
 }
