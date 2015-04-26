@@ -88,6 +88,9 @@ public class ChatClientImpl extends Thread implements ChatClient {
             Log.e(TAG, String.format("Could not connect to %s:%d", host, port));
             return;
         }
+        
+        notifyListenersConnectedToServer(host, port);
+        
         this.start();
     }
 
@@ -178,5 +181,16 @@ public class ChatClientImpl extends Thread implements ChatClient {
             System.exit(1);
         }
         System.exit(1);
+    }
+    
+    /**
+     * notify all ClientChangeListeners of successful connection to server
+     * @param host IP address of the ChatServer
+     * @param port being used by the ChatServer
+     */
+    private void notifyListenersConnectedToServer(String host, int port) {
+    	for (ClientChangeListener listener : this.listeners) {
+    		listener.startChat(getUsername(), Integer.toString(port), host);
+    	}
     }
 }

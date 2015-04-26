@@ -23,6 +23,7 @@ import edu.cmu.cs.cs214.rec15.client.ClientChangeListener;
  */
 public class ClientPanel extends JPanel implements ClientChangeListener {
 	private static final int FIELD_WIDTH = 60;
+	private static final int INFO_WIDTH = 20;
 	private static final int AREA_WIDTH = FIELD_WIDTH + 10;
 	private static final int AREA_HEIGHT = 20;
 	
@@ -36,6 +37,8 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	private final JTextField portField;
 	private final JTextField ipField;
 	private final JTextField messageField;
+	
+	private final JScrollPane scrollPane;
 	private final JTextArea chatArea;
 	
 	private final JButton startButton;
@@ -63,15 +66,21 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		chatArea.setLineWrap(true);
 		chatArea.setWrapStyleWord(true);
 		
-		JScrollPane scrollPane = new JScrollPane(chatArea);
+		scrollPane = new JScrollPane(chatArea);
 		
 		startButton = new JButton("Start");
 		startButton.addActionListener(new StartChatListener(usernameField, portField, ipField, client));
+		
 		sendButton = new JButton("Send");
+		sendButton.addActionListener(new SendMessageListener(messageField, client));
 	
 		this.add(createStartPanel(), BorderLayout.NORTH);
 		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(createSendPanel(), BorderLayout.SOUTH);
+		
+		this.messageField.setEnabled(false);
+		scrollPane.setEnabled(false);
+		this.sendButton.setEnabled(false);
 	}
 	
 	private JPanel createStartPanel() {
@@ -116,7 +125,9 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	 */
 	@Override
 	public void startChat(String username, String port, String IP) {
-		// TODO Auto-generated method stub
+		this.messageField.setEnabled(true);
+		this.scrollPane.setEnabled(true);
+		this.sendButton.setEnabled(true);
 
 	}
 

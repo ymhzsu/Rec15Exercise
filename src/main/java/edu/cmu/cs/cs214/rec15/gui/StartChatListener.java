@@ -23,15 +23,14 @@ public class StartChatListener implements ActionListener {
 	private JTextField mPort;
 
 	/**
-	 * 
+	 * Listener for the start button that takes username, ChatServer port, and ChatServer ip information 
+	 * and connects the current ChatClient to a ChatServer
 	 */
 	public StartChatListener(JTextField nameField, JTextField portField, JTextField IPField, ChatClient client) {
 		mName = nameField;
 		mClient = client;
 		mIP = IPField;
 		mPort = portField;
-		
-		// TODO: add validation...
 	}
 
 	/* (non-Javadoc)
@@ -40,6 +39,9 @@ public class StartChatListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		mClient.setUsername(mName.getText());
+		
+		// TODO: add validation...
+		
 		mClient.connectToServer(mIP.getText(), Integer.parseInt(mPort.getText()));
 	}
 
