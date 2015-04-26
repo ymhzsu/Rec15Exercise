@@ -10,6 +10,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import edu.cmu.cs.cs214.rec15.client.ChatClient;
@@ -20,7 +22,10 @@ import edu.cmu.cs.cs214.rec15.client.ClientChangeListener;
  *
  */
 public class ClientPanel extends JPanel implements ClientChangeListener {
-
+	private static final int FIELD_WIDTH = 60;
+	private static final int AREA_WIDTH = FIELD_WIDTH + 10;
+	private static final int AREA_HEIGHT = 20;
+	
 	private ChatClient client; 
 	
 	private final JLabel usernameLabel;
@@ -31,6 +36,7 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	private final JTextField portField;
 	private final JTextField ipField;
 	private final JTextField messageField;
+	private final JTextArea chatArea;
 	
 	private final JButton startButton;
 	private final JButton sendButton;
@@ -50,12 +56,20 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		usernameField = new JTextField();
 		portField = new JTextField();
 		ipField = new JTextField();
-		messageField = new JTextField();
+		messageField = new JTextField(FIELD_WIDTH);
+		
+		chatArea = new JTextArea(AREA_HEIGHT, AREA_WIDTH);
+		chatArea.setEditable(false);
+		chatArea.setLineWrap(true);
+		chatArea.setWrapStyleWord(true);
+		
+		JScrollPane scrollPane = new JScrollPane(chatArea);
 		
 		startButton = new JButton("Start");
 		sendButton = new JButton("Send");
 	
 		this.add(createStartPanel(), BorderLayout.NORTH);
+		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(createSendPanel(), BorderLayout.SOUTH);
 	}
 	
@@ -90,9 +104,9 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	
 	private JPanel createSendPanel() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout());
-		panel.add(this.messageField);
-		panel.add(this.sendButton);
+		panel.setLayout(new BorderLayout());
+		panel.add(this.messageField, BorderLayout.WEST);
+		panel.add(this.sendButton, BorderLayout.EAST);
 		return panel;
 	}
 
