@@ -117,8 +117,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
                 Message msg = (Message) in.readObject();
                 this.notifyListenersMessageSent(msg.getSender(),
                         msg.getContent());
-                System.out.println(msg);
-                System.out.println();
+                Log.i(TAG, String.format("Sending message: %s", msg));
             }
         } catch (EOFException e) {
             Log.i(TAG, "Connected closed by server");
