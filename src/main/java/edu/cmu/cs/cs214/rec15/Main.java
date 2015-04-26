@@ -1,7 +1,10 @@
 package edu.cmu.cs.cs214.rec15;
 
-import edu.cmu.cs.cs214.rec15.server.ChatServer;
-import edu.cmu.cs.cs214.rec15.server.ChatServerImpl;
+import javax.swing.JFrame;
+
+import edu.cmu.cs.cs214.rec15.client.ChatClient;
+import edu.cmu.cs.cs214.rec15.client.ChatClientImpl;
+import edu.cmu.cs.cs214.rec15.gui.ClientPanel;
 
 /**
  * Main class for Recitation 15.
@@ -10,29 +13,25 @@ import edu.cmu.cs.cs214.rec15.server.ChatServerImpl;
  *
  */
 public class Main {
-    private static final int DEFAULT_PORT = 15214;
-    
+
     /**
-     * Runs the chat master server.
+     * Runs the chat client gui
      * 
-     * @param args Command line arguments
+     * @param args
+     *            Command line arguments
      */
     public static void main(String[] args) {
-        ChatServer server = null;
-        if (args.length > 0){
-            try {
-            server = new ChatServerImpl(Integer.parseInt(args[0]));
-            } catch (NumberFormatException e){
-                printHelp();
-                System.exit(1);
-            }
-        }else{
-            server = new ChatServerImpl(DEFAULT_PORT);
-        }
-        server.startServer();
-    }
-    
-    private static void printHelp() {
-        System.err.println("Usage: ./server [PORT]");
+        // create new ChatClient instance
+        ChatClient client = new ChatClientImpl();
+        // create new frame
+        JFrame frame = new JFrame("Recitation 15");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // create new gui panel
+        ClientPanel clientPanel = new ClientPanel(client);
+        frame.setContentPane(clientPanel);
+        // display the window.
+        frame.pack();
+        frame.setVisible(true);
+
     }
 }

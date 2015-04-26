@@ -1,0 +1,68 @@
+/**
+ * 
+ */
+package edu.cmu.cs.cs214.rec15.gui;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JTextField;
+
+import edu.cmu.cs.cs214.rec15.client.ChatClient;
+import edu.cmu.cs.cs214.rec15.client.ClientChangeListener;
+
+/**
+ * @author nora
+ *
+ *         Listener that is used to start a chat session
+ *
+ */
+public class StartChatListener implements ActionListener {
+
+    private ChatClient mClient;
+    private JTextField mName;
+    private JTextField mIP;
+    private JTextField mPort;
+
+
+    /**
+     * 
+     * Listener for the start button that takes username, ChatServer port, and
+     * ChatServer ip information and connects the current ChatClient to a
+     * ChatServer
+     * 
+     * @param nameField
+     *            field in which the username will be typed
+     * @param portField
+     *            field in which the port number of the server will be typed
+     * @param ipField
+     *            field in which the ip address of the server will be typed
+     * @param client
+     *            current ChatClient that is trying to connect to the server
+     * @param gui
+     *            ClientChangeListener that components belong to
+     */
+    public StartChatListener(JTextField nameField, JTextField portField,
+            JTextField ipField, ChatClient client, ClientChangeListener gui) {
+        mName = nameField;
+        mClient = client;
+        mIP = ipField;
+        mPort = portField;
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     */
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        mClient.setUsername(mName.getText());
+
+        mClient.connectToServer(mIP.getText(),
+                Integer.parseInt(mPort.getText()));
+    }
+
+}

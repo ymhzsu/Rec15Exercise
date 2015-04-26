@@ -36,6 +36,24 @@ public interface ChatClient {
 
 
     /**
+     * Adds a new ClientChangeListener to the list of listeners
+     * 
+     * @param listener
+     *            ClientChangeListener to be added
+     */
+    void addClientChangeListener(ClientChangeListener listener);
+
+
+    /**
+     * Removes a ClientChangeListner to the list of listeners
+     * 
+     * @param listener
+     *            ClientChangeListener to be removed
+     */
+    void removeClientChangeListener(ClientChangeListener listener);
+
+
+    /**
      * Connects to the server specified by the arguments
      * 
      * @param hostname
@@ -47,6 +65,7 @@ public interface ChatClient {
 
 
     /**
+     * Determines if the ChatClient is connected to the ChatServer
      * 
      * @return True if the client is connected to server, false otherwise
      */
