@@ -7,5 +7,7 @@ public interface ChatServer {
     public int getNumClients();
     
     public ArrayList<Message> getMessages();
+    
+    public void startServer();
 
 }
