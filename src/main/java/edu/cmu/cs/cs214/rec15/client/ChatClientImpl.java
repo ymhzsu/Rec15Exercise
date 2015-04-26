@@ -98,12 +98,9 @@ public class ChatClientImpl extends Thread implements ChatClient {
             while (true) {
                 ObjectInputStream in = new ObjectInputStream(
                         socket.getInputStream());
-                System.out.println(in.available());
-                if (in.available() > 0) {
-                    Message msg = (Message) in.readObject();
-                    System.out.println(msg);
-                    System.out.println();
-                }
+                Message msg = (Message) in.readObject();
+                System.out.println(msg);
+                System.out.println();
             }
         } catch (EOFException e) {
             Log.i(TAG, "Connected closed by server");
