@@ -8,11 +8,14 @@ import java.awt.FlowLayout;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import edu.cmu.cs.cs214.rec15.client.ChatClient;
 import edu.cmu.cs.cs214.rec15.client.ClientChangeListener;
@@ -28,6 +31,8 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	private static final String USERNAME_TEXT = "Username: ";
     private static final String PORT_TEXT = "Host Port: ";
     private static final String IP_TEXT = "Host IP: ";
+    private static final String OK = "OK";
+    private static final String ERROR_ENCOUNTERED = "Error";
 	
 	private static final int AREA_HEIGHT = 20;
 	
@@ -83,8 +88,8 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		this.messageField.setEnabled(false);
 		scrollPane.setEnabled(false);
 		this.sendButton.setEnabled(false);
-		sendButton.addActionListener(new SendMessageListener(messageField, client));
-		startButton.addActionListener(new StartChatListener(usernameField, portField, ipField, client));
+		sendButton.addActionListener(new SendMessageListener(messageField, client, this));
+		startButton.addActionListener(new StartChatListener(usernameField, portField, ipField, client, this));
 	}
 	
 	private JPanel createStartPanel() {
@@ -142,6 +147,25 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	public void messageReceived(String username, String message) {
 		String newText = String.format(" %s: %s\n", username, message);
 		this.chatArea.append(newText);
+	}
+	
+	/**
+	 * Displays a pop-up error message
+	 * @param message text of message to be displayed
+	 */
+	public void displayErrorMessage(String message) {
+		JFrame frame = (JFrame) SwingUtilities.getRoot(this);
+		
+		Object[] options = {OK};
+		
+		int n = JOptionPane.showOptionDialog(frame,
+				message,
+				ERROR_ENCOUNTERED,
+				JOptionPane.YES_OPTION,
+				JOptionPane.INFORMATION_MESSAGE,
+				null,
+				options,
+				options[0]);
 	}
 
 }

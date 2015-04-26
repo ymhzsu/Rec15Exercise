@@ -15,4 +15,10 @@ public interface ClientChangeListener {
 	 * @param message text of new message being received
 	 */
 	void messageReceived(String username, String message);
+	
+	/**
+	 * Called when an error message needs to be displayed
+	 * @param message text of error message to display
+	 */
+	void displayErrorMessage(String message);
 }
