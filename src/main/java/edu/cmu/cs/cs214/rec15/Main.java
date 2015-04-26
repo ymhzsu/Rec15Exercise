@@ -9,7 +9,7 @@ package edu.cmu.cs.cs214.rec15;
 public class Main {
     
     /**
-     * Main function
+     * Runs the chat server
      * 
      * @param args Command line arguments
      */

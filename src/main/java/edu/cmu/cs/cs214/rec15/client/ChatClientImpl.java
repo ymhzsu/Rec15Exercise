@@ -8,8 +8,10 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import edu.cmu.cs.cs214.rec15.server.Message;
+import edu.cmu.cs.cs214.rec15.util.Log;
 
 public class ChatClientImpl extends Thread implements ChatClient {
+    private static final String TAG = "CLIENT";
     private Socket socket = null;
     private String username;
     ObjectOutputStream out;
@@ -27,11 +29,12 @@ public class ChatClientImpl extends Thread implements ChatClient {
                         socket.getInputStream());
                 Message msg = (Message) in.readObject();
                 System.out.println(msg);
+                System.out.println();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.toString());
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.toString());
         }
     }
 
@@ -57,10 +60,11 @@ public class ChatClientImpl extends Thread implements ChatClient {
 
     private void connectToServer(String host, int port) {
         try {
+            Log.i(TAG, String.format("Connected to server %s:%d.", host, port));
             socket = new Socket(host, port);
             out = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
-            System.err.println(String.format("Could not connect to %s:%d",
+            Log.e(TAG, String.format("Could not connect to %s:%d",
                     host, port));
         }
     }
@@ -68,16 +72,16 @@ public class ChatClientImpl extends Thread implements ChatClient {
 
     public static void main(String[] args) {
         ChatClientImpl client = new ChatClientImpl("localhost", 15214);
+        client.setUsername(args[0]);
         client.start();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String msg = null;
         try {
             while (true) {
-                System.out.print("> ");
                 msg = br.readLine();
                 if (msg.equals("/quit")) {
-                    br.close();
+                    break;
                 }
                 client.sendMessage(msg);
                 System.out.println();
@@ -85,13 +89,11 @@ public class ChatClientImpl extends Thread implements ChatClient {
         } catch (IOException ioe) {
             System.out.println("Error reading from system in");
             System.exit(1);
-        } finally {
-            try {
-                br.close();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        }
+        try {
+            br.close();
+        } catch (IOException e) {
+            // Ignore
         }
         System.exit(1);
     }

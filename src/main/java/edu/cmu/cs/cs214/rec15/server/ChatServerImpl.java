@@ -44,6 +44,9 @@ public class ChatServerImpl extends Thread implements ChatServer {
             while (true) {
                 try {
                     Socket clientSocket = serverSocket.accept();
+                    Log.i(TAG, String.format("Got connection from %s:%s",
+                            clientSocket.getRemoteSocketAddress(),
+                            clientSocket.getPort()));
                     clients.add(clientSocket);
                     mExecutor.execute(new ClientHandler(clientSocket));
                 } catch (IOException e) {
