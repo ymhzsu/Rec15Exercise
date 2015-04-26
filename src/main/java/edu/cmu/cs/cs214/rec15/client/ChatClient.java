@@ -19,4 +19,6 @@ public interface ChatClient {
      *            Username of the client
      */
     public void setUsername(String username);
+    
+    public void connectToServer(String hostname, int port);
 }
