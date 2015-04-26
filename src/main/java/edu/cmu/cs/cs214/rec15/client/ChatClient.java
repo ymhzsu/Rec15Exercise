@@ -34,4 +34,11 @@ public interface ChatClient {
      *            Port of the ChatServer
      */
     public void connectToServer(String hostname, int port);
+
+
+    /**
+     * 
+     * @return True if the client is connected to server, false otherwise
+     */
+    public boolean isConnected();
 }

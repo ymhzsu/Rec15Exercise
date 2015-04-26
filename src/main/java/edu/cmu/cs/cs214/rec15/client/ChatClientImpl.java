@@ -1,6 +1,7 @@
 package edu.cmu.cs.cs214.rec15.client;
 
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -8,6 +9,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.net.SocketException;
+
 
 import edu.cmu.cs.cs214.rec15.server.Message;
 import edu.cmu.cs.cs214.rec15.util.Log;
@@ -39,8 +42,15 @@ public class ChatClientImpl extends Thread implements ChatClient {
             Message msg = new Message(message, username);
             out.writeObject(msg);
             return true;
+        } catch (SocketException e) {
+            try {
+                socket.close();
+            } catch (IOException e1) {
+                // Ignore
+            }
+            Log.e(TAG, "Server closed connection.");
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Unable to send message to server.");
         }
         return false;
     }
@@ -70,8 +80,15 @@ public class ChatClientImpl extends Thread implements ChatClient {
             out = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             Log.e(TAG, String.format("Could not connect to %s:%d", host, port));
+            System.exit(1);
         }
         this.start();
+    }
+
+
+    @Override
+    public boolean isConnected() {
+        return (socket != null) && !socket.isClosed();
     }
 
 
@@ -81,14 +98,27 @@ public class ChatClientImpl extends Thread implements ChatClient {
             while (true) {
                 ObjectInputStream in = new ObjectInputStream(
                         socket.getInputStream());
-                Message msg = (Message) in.readObject();
-                System.out.println(msg);
-                System.out.println();
+                System.out.println(in.available());
+                if (in.available() > 0) {
+                    Message msg = (Message) in.readObject();
+                    System.out.println(msg);
+                    System.out.println();
+                }
             }
+        } catch (EOFException e) {
+            Log.i(TAG, "Connected closed by server");
+            return;
         } catch (IOException e) {
             Log.e(TAG, e.toString());
         } catch (ClassNotFoundException e) {
             Log.e(TAG, e.toString());
+        } finally {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                // Ignore, about to exit.
+                return;
+            }
         }
     }
 
@@ -97,9 +127,9 @@ public class ChatClientImpl extends Thread implements ChatClient {
         String username = "Dummy"; // Default username
         String defaultHost = "localhost";
         int defaultPort = 15214;
-        
+
         // Convert all args into a username
-        if(args.length > 0){
+        if (args.length > 0) {
             StringBuilder nameBuilder = new StringBuilder();
             for (int x = 0; x < args.length; x++) {
                 if (x > 0) {
@@ -109,7 +139,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
             }
             username = nameBuilder.toString();
         }
-        
+
         // Creates client and connects to server
         ChatClient client = new ChatClientImpl();
         client.setUsername(username);
@@ -118,7 +148,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String msg = null;
         try {
-            while (true) {
+            while (client.isConnected()) {
                 msg = br.readLine();
                 if (msg.equals("/quit")) {
                     break;
