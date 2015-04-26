@@ -71,7 +71,7 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		startButton = new JButton("Start");
 		
 		sendButton = new JButton("Send");
-	
+		this.setLayout(new BorderLayout());
 		this.add(createStartPanel(), BorderLayout.NORTH);
 		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(createSendPanel(), BorderLayout.SOUTH);
