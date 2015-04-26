@@ -108,6 +108,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
                 ObjectInputStream in = new ObjectInputStream(
                         socket.getInputStream());
                 Message msg = (Message) in.readObject();
+                this.notifyListenersMessageSent(msg.getContent());
                 System.out.println(msg);
                 System.out.println();
             }
