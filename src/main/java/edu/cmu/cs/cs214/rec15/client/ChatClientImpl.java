@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
             try {
                 socket.close();
             } catch (IOException e1) {
-                // Ignore
+                Log.e(TAG, "Unable to close socket.");
             }
             Log.e(TAG, "Server closed connection.");
         } catch (IOException e) {
@@ -57,8 +58,13 @@ public class ChatClientImpl extends Thread implements ChatClient {
 
 
     @Override
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String name) {
+        this.username = name;
+    }
+    
+    @Override
+    public String getUsername() {
+        return this.username;
     }
 
 
@@ -80,7 +86,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
             out = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             Log.e(TAG, String.format("Could not connect to %s:%d", host, port));
-            System.exit(1);
+            return;
         }
         this.start();
     }
@@ -118,12 +124,15 @@ public class ChatClientImpl extends Thread implements ChatClient {
             }
         }
     }
-
-
+    
+    /**
+     * Creates and runs a ChatClientImpl
+     * @param args Command line arguments
+     */
     public static void main(String[] args) {
         String username = "Dummy"; // Default username
         String defaultHost = "localhost";
-        int defaultPort = 15214;
+        String defaultPort = "15214";
 
         // Convert all args into a username
         if (args.length > 0) {
@@ -140,14 +149,20 @@ public class ChatClientImpl extends Thread implements ChatClient {
         // Creates client and connects to server
         ChatClient client = new ChatClientImpl();
         client.setUsername(username);
-        client.connectToServer(defaultHost, defaultPort);
+        client.connectToServer(defaultHost, Integer.parseInt(defaultPort));
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new InputStreamReader(System.in, "UTF-8"));
+        } catch (UnsupportedEncodingException e1) {
+            System.err.println("Bad encoding type");
+            System.exit(1);
+        }
         String msg = null;
         try {
             while (client.isConnected()) {
                 msg = br.readLine();
-                if (msg.equals("/quit")) {
+                if (msg != null && msg.equals("/quit")) {
                     break;
                 }
                 client.sendMessage(msg);
@@ -160,7 +175,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
         try {
             br.close();
         } catch (IOException e) {
-            // Ignore
+            System.exit(1);
         }
         System.exit(1);
     }
