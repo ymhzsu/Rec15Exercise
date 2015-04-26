@@ -138,64 +138,6 @@ public class ChatClientImpl extends Thread implements ChatClient {
 
 
     /**
-     * Creates and runs a ChatClientImpl
-     * 
-     * @param args
-     *            Command line arguments
-     */
-    public static void main(String[] args) {
-        String username = "Dummy"; // Default username
-        String defaultHost = "localhost";
-        String defaultPort = "15214";
-
-        // Convert all args into a username
-        if (args.length > 0) {
-            StringBuilder nameBuilder = new StringBuilder();
-            for (int x = 0; x < args.length; x++) {
-                if (x > 0) {
-                    nameBuilder.append(" ");
-                }
-                nameBuilder.append(args[x]);
-            }
-            username = nameBuilder.toString();
-        }
-
-        // Creates client and connects to server
-        ChatClient client = new ChatClientImpl();
-        client.setUsername(username);
-        client.connectToServer(defaultHost, Integer.parseInt(defaultPort));
-
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new InputStreamReader(System.in, "UTF-8"));
-        } catch (UnsupportedEncodingException e1) {
-            System.err.println("Bad encoding type");
-            System.exit(1);
-        }
-        String msg = null;
-        try {
-            while (client.isConnected()) {
-                msg = br.readLine();
-                if (msg != null && msg.equals("/quit")) {
-                    break;
-                }
-                client.sendMessage(msg);
-                System.out.println();
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading from system in");
-            System.exit(1);
-        }
-        try {
-            br.close();
-        } catch (IOException e) {
-            System.exit(1);
-        }
-        System.exit(1);
-    }
-
-
-    /**
      * notify all listeners of successful connection to server
      * 
      * @param host
