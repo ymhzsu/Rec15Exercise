@@ -32,6 +32,11 @@ public class ChatClientImpl extends Thread implements ChatClient {
             out.writeObject(msg);
             return true;
         } catch (SocketException e) {
+            try {
+                socket.close();
+            } catch (IOException e1) {
+                // Ignore
+            }
             Log.e(TAG, "Server closed connection.");
         } catch (IOException e) {
             Log.e(TAG, "Unable to send message to server.");
@@ -71,17 +76,27 @@ public class ChatClientImpl extends Thread implements ChatClient {
 
 
     @Override
+    public boolean isConnected() {
+        return (socket != null) && !socket.isClosed();
+    }
+
+
+    @Override
     public void run() {
         try {
             while (true) {
                 ObjectInputStream in = new ObjectInputStream(
                         socket.getInputStream());
-                Message msg = (Message) in.readObject();
-                System.out.println(msg);
-                System.out.println();
+                System.out.println(in.available());
+                if (in.available() > 0) {
+                    Message msg = (Message) in.readObject();
+                    System.out.println(msg);
+                    System.out.println();
+                }
             }
         } catch (EOFException e) {
             Log.i(TAG, "Connected closed by server");
+            return;
         } catch (IOException e) {
             Log.e(TAG, e.toString());
         } catch (ClassNotFoundException e) {
@@ -101,9 +116,9 @@ public class ChatClientImpl extends Thread implements ChatClient {
         String username = "Dummy"; // Default username
         String defaultHost = "localhost";
         int defaultPort = 15214;
-        
+
         // Convert all args into a username
-        if(args.length > 0){
+        if (args.length > 0) {
             StringBuilder nameBuilder = new StringBuilder();
             for (int x = 0; x < args.length; x++) {
                 if (x > 0) {
@@ -113,7 +128,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
             }
             username = nameBuilder.toString();
         }
-        
+
         // Creates client and connects to server
         ChatClient client = new ChatClientImpl();
         client.setUsername(username);
@@ -122,7 +137,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String msg = null;
         try {
-            while (true) {
+            while (client.isConnected()) {
                 msg = br.readLine();
                 if (msg.equals("/quit")) {
                     break;
