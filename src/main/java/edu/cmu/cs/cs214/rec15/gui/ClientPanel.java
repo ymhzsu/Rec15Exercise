@@ -80,9 +80,9 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(createSendPanel(), BorderLayout.SOUTH);
 		
-		//this.messageField.setEnabled(false);
-		//scrollPane.setEnabled(false);
-		//this.sendButton.setEnabled(false);
+		this.messageField.setEnabled(false);
+		scrollPane.setEnabled(false);
+		this.sendButton.setEnabled(false);
 		sendButton.addActionListener(new SendMessageListener(messageField, client));
 		startButton.addActionListener(new StartChatListener(usernameField, portField, ipField, client));
 	}
