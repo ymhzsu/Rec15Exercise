@@ -4,6 +4,7 @@
 package edu.cmu.cs.cs214.rec15.gui;
 
 import edu.cmu.cs.cs214.rec15.client.ChatClient;
+import edu.cmu.cs.cs214.rec15.client.ClientChangeListener;
 
 /**
  * @author nora

@@ -1,4 +1,4 @@
-package edu.cmu.cs.cs214.rec15.gui;
+package edu.cmu.cs.cs214.rec15.client;
 
 public interface ClientChangeListener {
 	

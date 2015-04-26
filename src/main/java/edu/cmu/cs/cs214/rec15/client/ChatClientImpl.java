@@ -9,7 +9,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.cmu.cs.cs214.rec15.gui.ClientChangeListener;
 import edu.cmu.cs.cs214.rec15.server.Message;
 import edu.cmu.cs.cs214.rec15.util.Log;
 
