@@ -91,7 +91,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
         }
         
         this.start();
-        //notifyListenersConnectedToServer(host, port);
+        notifyListenersConnectedToServer(host, port);
     }
 
 
