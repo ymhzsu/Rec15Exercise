@@ -81,6 +81,7 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		chatArea.setWrapStyleWord(true);
 		
 		scrollPane = new JScrollPane(chatArea);
+        this.scrollPane.getViewport().setAutoscrolls(true);
 		
 		startButton = new JButton("Start");		
 		sendButton = new JButton("Send");
@@ -181,6 +182,7 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	public void messageReceived(String username, String message) {
 		String newText = String.format(" %s: %s\n", username, message);
 		this.chatArea.append(newText);
+		chatArea.setCaretPosition(chatArea.getDocument().getLength());
 	}
 	
 	/**
