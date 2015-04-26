@@ -15,12 +15,13 @@ import edu.cmu.cs.cs214.rec15.util.Log;
 
 /**
  * Chat server that uses sockets to connect clients
+ * 
  * @author tsun
  *
  */
 public class ChatServerImpl extends Thread implements ChatServer {
-	private static final int DEFAULT_PORT = 15214;
-	private static final String TAG = "SERVER";
+    private static final int DEFAULT_PORT = 15214;
+    private static final String TAG = "SERVER";
     private static final int POOL_SIZE = Runtime.getRuntime()
             .availableProcessors();
     private int port;
@@ -30,9 +31,12 @@ public class ChatServerImpl extends Thread implements ChatServer {
     private static List<Message> messages = Collections
             .synchronizedList(new ArrayList<Message>());
 
+
     /**
      * Constructs a ChatServerImpl on the given port
-     * @param serverPort Port to run the server on
+     * 
+     * @param serverPort
+     *            Port to run the server on
      */
     public ChatServerImpl(int serverPort) {
         this.port = serverPort;
@@ -179,27 +183,30 @@ public class ChatServerImpl extends Thread implements ChatServer {
         }
 
     }
-    
+
+
     /**
      * Runs the chat master server.
      * 
-     * @param args Command line arguments
+     * @param args
+     *            Command line arguments
      */
     public static void main(String[] args) {
         ChatServer server = null;
-        if (args.length > 0){
+        if (args.length > 0) {
             try {
-            server = new ChatServerImpl(Integer.parseInt(args[0]));
-            } catch (NumberFormatException e){
+                server = new ChatServerImpl(Integer.parseInt(args[0]));
+            } catch (NumberFormatException e) {
                 printHelp();
                 System.exit(1);
             }
-        }else{
+        } else {
             server = new ChatServerImpl(DEFAULT_PORT);
         }
         server.startServer();
     }
-    
+
+
     private static void printHelp() {
         System.err.println("Usage: ./server [PORT]");
     }

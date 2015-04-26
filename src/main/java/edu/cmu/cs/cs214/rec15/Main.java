@@ -13,24 +13,25 @@ import edu.cmu.cs.cs214.rec15.gui.ClientPanel;
  *
  */
 public class Main {
-    
+
     /**
      * Runs the chat client gui
      * 
-     * @param args Command line arguments
+     * @param args
+     *            Command line arguments
      */
     public static void main(String[] args) {
-    	// create new ChatClient instance
+        // create new ChatClient instance
         ChatClient client = new ChatClientImpl();
         // create new frame
-    	JFrame frame = new JFrame("Recitation 15");
+        JFrame frame = new JFrame("Recitation 15");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // create new gui panel 
+        // create new gui panel
         ClientPanel clientPanel = new ClientPanel(client);
         frame.setContentPane(clientPanel);
         // display the window.
         frame.pack();
         frame.setVisible(true);
-        
+
     }
 }

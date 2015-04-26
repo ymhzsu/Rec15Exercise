@@ -17,12 +17,14 @@ public interface ChatClient {
      */
     boolean sendMessage(String message);
 
+
     /**
      * Gets the username of the client
      * 
      * @return Username of the client
      */
     String getUsername();
+
 
     /**
      * Sets the username of the client
@@ -31,20 +33,25 @@ public interface ChatClient {
      *            Username of the client
      */
     void setUsername(String username);
-    
+
+
     /**
      * Adds a new ClientChangeListener to the list of listeners
      * 
-     * @param listener ClientChangeListener to be added
+     * @param listener
+     *            ClientChangeListener to be added
      */
     void addClientChangeListener(ClientChangeListener listener);
-    
+
+
     /**
      * Removes a ClientChangeListner to the list of listeners
      * 
-     * @param listener ClientChangeListener to be removed
+     * @param listener
+     *            ClientChangeListener to be removed
      */
     void removeClientChangeListener(ClientChangeListener listener);
+
 
     /**
      * Connects to the server specified by the arguments
@@ -55,6 +62,7 @@ public interface ChatClient {
      *            Port of the ChatServer
      */
     void connectToServer(String hostname, int port);
+
 
     /**
      * Determines if the ChatClient is connected to the ChatServer
