@@ -167,14 +167,12 @@ public class ChatServerImpl extends Thread implements ChatServer {
         private void onNewMessage(Socket from, Message msg) {
             synchronized (clients) {
                 for (Socket s : clients) {
-                    if (!s.equals(from)) {
-                        try {
-                            ObjectOutputStream out = new ObjectOutputStream(
-                                    s.getOutputStream());
-                            out.writeObject(msg);
-                        } catch (IOException e) {
-                            Log.e(TAG, "Unable to send message to client.");
-                        }
+                    try {
+                        ObjectOutputStream out = new ObjectOutputStream(
+                                s.getOutputStream());
+                        out.writeObject(msg);
+                    } catch (IOException e) {
+                        Log.e(TAG, "Unable to send message to client.");
                     }
                 }
             }
