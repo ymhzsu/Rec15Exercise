@@ -26,9 +26,11 @@ public class SendMessageListener implements ActionListener {
 	private static final String CANNOT_SEND_MESSAGE = "Cannot send current message. Please try again.";
 
 	/**
+	 * 
 	 * Listener used to indicate when a new message is being sent
 	 * @param messageField field in which the message will be typed
 	 * @param client current ChatClient
+	 * @param listener ClientChangeListener that components belong to
 	 */
 	public SendMessageListener(JTextField messageField, ChatClient client, ClientChangeListener listener) {
 		this.message = messageField;

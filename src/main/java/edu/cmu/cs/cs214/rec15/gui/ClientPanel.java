@@ -29,9 +29,9 @@ import edu.cmu.cs.cs214.rec15.client.ClientChangeListener;
  *
  */
 public class ClientPanel extends JPanel implements ClientChangeListener {
-	private static final int FIELD_WIDTH = 60;
-	private static final int INFO_WIDTH = 20;
-	private static final int AREA_WIDTH = FIELD_WIDTH + 10;
+	private static final int FIELD_WIDTH = Integer.parseInt("60");
+	private static final int INFO_WIDTH = Integer.parseInt("20");
+	private static final int AREA_WIDTH = FIELD_WIDTH + Integer.parseInt("10");
 	
 	private static final String USERNAME_TEXT = "Username: ";
     private static final String PORT_TEXT = "Host Port: ";
@@ -39,7 +39,7 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
     private static final String OK = "OK";
     private static final String ERROR_ENCOUNTERED = "Error";
 	
-	private static final int AREA_HEIGHT = 20;
+	private static final int AREA_HEIGHT = Integer.parseInt("20");
 	
 	private ChatClient client; 
 	
@@ -58,9 +58,11 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	private final JButton startButton;
 	private final JButton sendButton;
 	
-	/**
+	/** 
 	 * Constructor for ClientPanel takes in an instance of the ChatClient
 	 * that it will be representing.
+	 * 
+	 * @param chatClient ChatClient the gui will be representing
 	 */
 	public ClientPanel(ChatClient chatClient) {
 		this.client = chatClient;
@@ -168,7 +170,7 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	 * @see edu.cmu.cs.cs214.rec15.gui.ClientChangeListener#startChat(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void startChat(String username, String port, String IP) {
+	public void startChat(String username, String port, String ip) {
 		this.messageField.setEnabled(true);
 		this.scrollPane.setEnabled(true);
 		this.sendButton.setEnabled(true);

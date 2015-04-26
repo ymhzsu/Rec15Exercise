@@ -5,8 +5,6 @@ import javax.swing.JFrame;
 import edu.cmu.cs.cs214.rec15.client.ChatClient;
 import edu.cmu.cs.cs214.rec15.client.ChatClientImpl;
 import edu.cmu.cs.cs214.rec15.gui.ClientPanel;
-import edu.cmu.cs.cs214.rec15.server.ChatServer;
-import edu.cmu.cs.cs214.rec15.server.ChatServerImpl;
 
 /**
  * Main class for Recitation 15.
