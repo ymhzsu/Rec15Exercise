@@ -23,8 +23,6 @@ public class StartChatListener implements ActionListener {
 	private JTextField mName;
 	private JTextField mIP;
 	private JTextField mPort;
-	private ClientChangeListener mGUI;
-
 	/**
 	 * 
 	 * Listener for the start button that takes username, ChatServer port, and ChatServer ip information 
@@ -40,7 +38,6 @@ public class StartChatListener implements ActionListener {
 		mClient = client;
 		mIP = ipField;
 		mPort = portField;
-		mGUI = gui;
 	}
 
 	/* (non-Javadoc)

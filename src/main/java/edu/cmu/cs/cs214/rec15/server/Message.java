@@ -44,7 +44,7 @@ public class Message implements Serializable {
     public Message(String message, String messageSender, Date messageTimestamp) {
         this.content = message;
         this.sender = messageSender;
-        this.timestamp = messageTimestamp;
+        this.timestamp = new Date(messageTimestamp.getTime());
     }
 
 
@@ -60,7 +60,7 @@ public class Message implements Serializable {
      * @return the timestamp
      */
     public Date getTimestamp() {
-        return timestamp;
+        return new Date(timestamp.getTime());
     }
 
 

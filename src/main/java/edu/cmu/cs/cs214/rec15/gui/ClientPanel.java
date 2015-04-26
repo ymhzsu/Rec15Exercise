@@ -182,7 +182,7 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	 */
 	@Override
 	public void messageReceived(String username, String message) {
-		String newText = String.format(" %s: %s\n", username, message);
+		String newText = String.format(" %s: %s%n", username, message);
 		this.chatArea.append(newText);
 		chatArea.setCaretPosition(chatArea.getDocument().getLength());
 	}
@@ -197,7 +197,7 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		
 		Object[] options = {OK};
 		
-		int n = JOptionPane.showOptionDialog(frame,
+		JOptionPane.showOptionDialog(frame,
 				message,
 				ERROR_ENCOUNTERED,
 				JOptionPane.YES_OPTION,
