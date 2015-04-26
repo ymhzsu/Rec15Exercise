@@ -22,10 +22,12 @@ public class ChatClientImpl extends Thread implements ChatClient {
 
     public void run() {
         try {
-            ObjectInputStream in = new ObjectInputStream(
-                    socket.getInputStream());
-            Message msg = (Message) in.readObject();
-            System.out.println(msg);
+            while (true) {
+                ObjectInputStream in = new ObjectInputStream(
+                        socket.getInputStream());
+                Message msg = (Message) in.readObject();
+                System.out.println(msg);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -71,13 +73,13 @@ public class ChatClientImpl extends Thread implements ChatClient {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String msg = null;
         try {
-            while(true){
+            while (true) {
                 System.out.print("> ");
                 msg = br.readLine();
-                if (msg.equals("/quit")){
+                if (msg.equals("/quit")) {
                     br.close();
                 }
-                client.sendMessage(msg);  
+                client.sendMessage(msg);
                 System.out.println();
             }
         } catch (IOException ioe) {

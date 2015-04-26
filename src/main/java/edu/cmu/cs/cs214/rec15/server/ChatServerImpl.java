@@ -111,7 +111,6 @@ public class ChatServerImpl extends Thread implements ChatServer {
 
 
         private void onNewMessage(Socket from, Message msg) {
-            System.out.println(msg.getContent());
             for (Socket s : clients) {
                 if (!s.equals(from)) {
                     try {
