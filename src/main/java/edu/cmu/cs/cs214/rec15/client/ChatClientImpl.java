@@ -6,7 +6,10 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
+import edu.cmu.cs.cs214.rec15.gui.ClientChangeListener;
 import edu.cmu.cs.cs214.rec15.server.Message;
 import edu.cmu.cs.cs214.rec15.util.Log;
 
@@ -15,12 +18,16 @@ public class ChatClientImpl extends Thread implements ChatClient {
     private Socket socket = null;
     private String username;
     ObjectOutputStream out;
-
+    private List<ClientChangeListener> listeners;
 
     public ChatClientImpl(String host, int port) {
         connectToServer(host, port);
+        listeners = new ArrayList<ClientChangeListener>();
     }
 
+    public void addClientChangeListener(ClientChangeListener listener) {
+    	listeners.add(listener);
+    }
 
     public void run() {
         try {
