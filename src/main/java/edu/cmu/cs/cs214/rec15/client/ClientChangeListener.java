@@ -1,5 +1,10 @@
 package edu.cmu.cs.cs214.rec15.client;
-
+/**
+ * ClientChangeListener is a class meant to be implemented by any GUIs being made for the ChatClient
+ * 
+ * @author nora
+ *
+ */
 public interface ClientChangeListener {
 	
 	/**
