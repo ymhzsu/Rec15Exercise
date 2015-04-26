@@ -53,9 +53,9 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		portLabel = new JLabel("port: ");
 		ipLabel = new JLabel("server IP: ");
 		
-		usernameField = new JTextField();
-		portField = new JTextField();
-		ipField = new JTextField();
+		usernameField = new JTextField(FIELD_WIDTH);
+		portField = new JTextField(FIELD_WIDTH);
+		ipField = new JTextField(FIELD_WIDTH);
 		messageField = new JTextField(FIELD_WIDTH);
 		
 		chatArea = new JTextArea(AREA_HEIGHT, AREA_WIDTH);

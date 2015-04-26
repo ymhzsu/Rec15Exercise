@@ -25,8 +25,8 @@ public class ChatClientImpl extends Thread implements ChatClient {
     private static final String TAG = "CLIENT";
     private Socket socket = null;
     private String username;
-    ObjectOutputStream out;
-    private List<ClientChangeListener> listeners;
+    private ObjectOutputStream out;
+    private List<ClientChangeListener> listeners = new ArrayList<ClientChangeListener>();
 
     public void addClientChangeListener(ClientChangeListener listener) {
     	listeners.add(listener);
