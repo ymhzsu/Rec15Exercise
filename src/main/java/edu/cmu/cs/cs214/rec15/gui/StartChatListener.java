@@ -23,6 +23,7 @@ public class StartChatListener implements ActionListener {
     private JTextField mName;
     private JTextField mIP;
     private JTextField mPort;
+    private ClientChangeListener parent;
 
 
     /**
@@ -48,6 +49,7 @@ public class StartChatListener implements ActionListener {
         mClient = client;
         mIP = ipField;
         mPort = portField;
+        parent = gui;
     }
 
 
@@ -60,9 +62,11 @@ public class StartChatListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent arg0) {
         mClient.setUsername(mName.getText());
-
-        mClient.connectToServer(mIP.getText(),
-                Integer.parseInt(mPort.getText()));
+        try {
+            mClient.connectToServer(mIP.getText(),
+                    Integer.parseInt(mPort.getText()));
+        } catch (NumberFormatException e) {
+            parent.displayErrorMessage("Invalid port/host combintation");
+        }
     }
-
 }
