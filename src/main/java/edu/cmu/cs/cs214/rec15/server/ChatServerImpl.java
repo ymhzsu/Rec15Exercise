@@ -83,6 +83,27 @@ public class ChatServerImpl extends Thread implements ChatServer {
 
 
     @Override
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+
+    @Override
+    public void stopServer() {
+        for (Socket s : clients) {
+            if (s != null && !s.isClosed()) {
+                try {
+                    s.close();
+                } catch (IOException e) {
+                    Log.e(TAG, "Unable to close connection to client.");
+                }
+            }
+        }
+        mExecutor.shutdown();
+    }
+
+
+    @Override
     public ArrayList<Message> getMessages() {
         return (ArrayList<Message>) Collections.unmodifiableList(messages);
     }
@@ -112,9 +133,12 @@ public class ChatServerImpl extends Thread implements ChatServer {
                     onNewMessage(socket, msg);
                 }
             } catch (IOException e) {
-                Log.e(TAG, "Connection lost.", e);
+                Log.e(TAG,
+                        String.format("Connection lost from client: %s",
+                                socket.getRemoteSocketAddress()));
+                clients.remove(socket);
             } catch (ClassNotFoundException e) {
-                Log.e(TAG, "Received invalid task from client.", e);
+                Log.e(TAG, "Received invalid task from client.");
             } finally {
                 try {
                     socket.close();
@@ -133,12 +157,12 @@ public class ChatServerImpl extends Thread implements ChatServer {
                                 s.getOutputStream());
                         out.writeObject(msg);
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+                        Log.e(TAG, "Unable to send message to client.");
                     }
                 }
             }
         }
 
     }
+
 }
