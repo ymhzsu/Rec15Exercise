@@ -23,7 +23,7 @@ public class Main {
      */
     public static void main(String[] args) {
         ChatClient client = new ChatClientImpl();
-    	JFrame frame = new JFrame("Recitation 15 is awesome");
+    	JFrame frame = new JFrame("Recitation 15 is Awesome");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         

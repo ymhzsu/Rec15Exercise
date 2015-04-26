@@ -25,6 +25,10 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	private static final int FIELD_WIDTH = 60;
 	private static final int INFO_WIDTH = 20;
 	private static final int AREA_WIDTH = FIELD_WIDTH + 10;
+	private static final String USERNAME_TEXT = "Username: ";
+    private static final String PORT_TEXT = "Host Port: ";
+    private static final String IP_TEXT = "Host IP: ";
+	
 	private static final int AREA_HEIGHT = 20;
 	
 	private ChatClient client; 
@@ -52,9 +56,9 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		this.client = chatClient;
 		chatClient.addClientChangeListener(this);
 		
-		usernameLabel = new JLabel("username: ");
-		portLabel = new JLabel("port: ");
-		ipLabel = new JLabel("server IP: ");
+		usernameLabel = new JLabel(USERNAME_TEXT);
+		portLabel = new JLabel(PORT_TEXT);
+		ipLabel = new JLabel(IP_TEXT);
 		
 		usernameField = new JTextField(FIELD_WIDTH);
 		portField = new JTextField(FIELD_WIDTH);
@@ -115,7 +119,7 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	private JPanel createSendPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		panel.add(this.messageField, BorderLayout.WEST);
+		panel.add(this.messageField, BorderLayout.CENTER);
 		panel.add(this.sendButton, BorderLayout.EAST);
 		return panel;
 	}
