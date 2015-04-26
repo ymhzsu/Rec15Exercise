@@ -28,6 +28,10 @@ public class ChatClientImpl extends Thread implements ChatClient {
     public void addClientChangeListener(ClientChangeListener listener) {
     	listeners.add(listener);
     }
+    
+    public void removeClientChangeListener(ClientChangeListener listener) {
+    	listeners.remove(listener);
+    }
 
     public void run() {
         try {

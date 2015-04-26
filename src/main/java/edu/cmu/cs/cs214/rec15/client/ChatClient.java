@@ -9,4 +9,6 @@ public interface ChatClient {
     public void setUsername(String username);
     
     public void addClientChangeListener(ClientChangeListener listener);
+    
+    public void removeClientChangeListener(ClientChangeListener listener);
 }
