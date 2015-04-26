@@ -5,6 +5,8 @@ package edu.cmu.cs.cs214.rec15.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -126,6 +128,29 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		panel.setLayout(new BorderLayout());
 		panel.add(this.messageField, BorderLayout.CENTER);
 		panel.add(this.sendButton, BorderLayout.EAST);
+		messageField.addKeyListener(new KeyListener() {
+            
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    sendButton.doClick();
+                }
+            }
+        });
 		return panel;
 	}
 
