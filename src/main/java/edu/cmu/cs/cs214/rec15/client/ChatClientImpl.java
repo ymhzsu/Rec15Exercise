@@ -14,7 +14,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
     private static final String TAG = "CLIENT";
     private Socket socket = null;
     private String username;
-    ObjectOutputStream out;
+    private ObjectOutputStream out;
 
 
     public ChatClientImpl(String host, int port) {
