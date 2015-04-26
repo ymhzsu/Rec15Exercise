@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -18,8 +19,8 @@ public class ChatServerImpl extends Thread implements ChatServer {
             .availableProcessors();
     private int port;
     private final ExecutorService mExecutor;
-    private static ArrayList<Socket> clients = new ArrayList<Socket>();
-    private static ArrayList<Message> messages = new ArrayList<Message>();
+    private static List<Socket> clients = Collections.synchronizedList(new ArrayList<Socket>());
+    private static List<Message> messages = Collections.synchronizedList(new ArrayList<Message>());
 
 
     public ChatServerImpl(int port) {
@@ -150,14 +151,16 @@ public class ChatServerImpl extends Thread implements ChatServer {
 
 
         private void onNewMessage(Socket from, Message msg) {
-            for (Socket s : clients) {
-                if (!s.equals(from)) {
-                    try {
-                        ObjectOutputStream out = new ObjectOutputStream(
-                                s.getOutputStream());
-                        out.writeObject(msg);
-                    } catch (IOException e) {
-                        Log.e(TAG, "Unable to send message to client.");
+            synchronized (clients) {
+                for (Socket s : clients) {
+                    if (!s.equals(from)) {
+                        try {
+                            ObjectOutputStream out = new ObjectOutputStream(
+                                    s.getOutputStream());
+                            out.writeObject(msg);
+                        } catch (IOException e) {
+                            Log.e(TAG, "Unable to send message to client.");
+                        }
                     }
                 }
             }
