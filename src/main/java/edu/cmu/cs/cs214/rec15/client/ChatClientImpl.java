@@ -42,6 +42,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
         try {
             Message msg = new Message(message, username);
             out.writeObject(msg);
+            this.notifyListenersMessageSent(msg.getContent());
             return true;
         } catch (SocketException e) {
             try {
@@ -107,7 +108,6 @@ public class ChatClientImpl extends Thread implements ChatClient {
                 ObjectInputStream in = new ObjectInputStream(
                         socket.getInputStream());
                 Message msg = (Message) in.readObject();
-                this.notifyListenersMessageSent(msg.getContent());
                 System.out.println(msg);
                 System.out.println();
             }
