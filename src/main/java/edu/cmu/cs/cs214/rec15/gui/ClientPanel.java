@@ -23,6 +23,8 @@ import edu.cmu.cs.cs214.rec15.client.ChatClient;
 import edu.cmu.cs.cs214.rec15.client.ClientChangeListener;
 
 /**
+ * ClientPanel a GUI for the ChatClient interface
+ * 
  * @author nora
  *
  */
@@ -30,6 +32,7 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	private static final int FIELD_WIDTH = 60;
 	private static final int INFO_WIDTH = 20;
 	private static final int AREA_WIDTH = FIELD_WIDTH + 10;
+	
 	private static final String USERNAME_TEXT = "Username: ";
     private static final String PORT_TEXT = "Host Port: ";
     private static final String IP_TEXT = "Host IP: ";
@@ -79,9 +82,9 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		
 		scrollPane = new JScrollPane(chatArea);
 		
-		startButton = new JButton("Start");
-		
+		startButton = new JButton("Start");		
 		sendButton = new JButton("Send");
+		
 		this.setLayout(new BorderLayout());
 		this.add(createStartPanel(), BorderLayout.NORTH);
 		this.add(scrollPane, BorderLayout.CENTER);
@@ -90,6 +93,7 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		this.messageField.setEnabled(false);
 		scrollPane.setEnabled(false);
 		this.sendButton.setEnabled(false);
+		
 		sendButton.addActionListener(new SendMessageListener(messageField, client, this));
 		startButton.addActionListener(new StartChatListener(usernameField, portField, ipField, client, this));
 	}
@@ -99,27 +103,32 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		panel.setLayout(new FlowLayout());
 		panel.add(createUserInfoPanel());
 		panel.add(startButton);
+		
 		return panel;
 	}
 	
 	private JPanel createUserInfoPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		
 		JPanel namePanel = new JPanel();
 		namePanel.setLayout(new FlowLayout());
 		namePanel.add(this.usernameLabel);
 		namePanel.add(this.usernameField);
 		panel.add(namePanel);
+		
 		JPanel portPanel = new JPanel();
 		portPanel.setLayout(new FlowLayout());
 		portPanel.add(this.portLabel);
 		portPanel.add(this.portField);
 		panel.add(portPanel);
+		
 		JPanel ipPanel = new JPanel();		
 		ipPanel.setLayout(new FlowLayout());
 		ipPanel.add(this.ipLabel);
 		ipPanel.add(this.ipField);
 		panel.add(ipPanel);
+		
 		return panel;
 	}
 	
@@ -178,6 +187,7 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	 * Displays a pop-up error message
 	 * @param message text of message to be displayed
 	 */
+	@Override
 	public void displayErrorMessage(String message) {
 		JFrame frame = (JFrame) SwingUtilities.getRoot(this);
 		
