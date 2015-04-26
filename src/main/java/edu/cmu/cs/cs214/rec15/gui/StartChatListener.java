@@ -14,6 +14,8 @@ import edu.cmu.cs.cs214.rec15.client.ClientChangeListener;
 /**
  * @author nora
  *
+ * Listener that is used to start a chat session
+ *
  */
 public class StartChatListener implements ActionListener {
 	
@@ -21,16 +23,24 @@ public class StartChatListener implements ActionListener {
 	private JTextField mName;
 	private JTextField mIP;
 	private JTextField mPort;
+	private ClientChangeListener mGUI;
 
 	/**
+	 * 
 	 * Listener for the start button that takes username, ChatServer port, and ChatServer ip information 
 	 * and connects the current ChatClient to a ChatServer
+	 * @param nameField field in which the username will be typed
+	 * @param portField field in which the port number of the server will be typed
+	 * @param ipField field in which the ip address of the server will be typed
+	 * @param client current ChatClient that is trying to connect to the server
+	 * @param gui ClientChangeListener that components belong to
 	 */
-	public StartChatListener(JTextField nameField, JTextField portField, JTextField IPField, ChatClient client) {
+	public StartChatListener(JTextField nameField, JTextField portField, JTextField ipField, ChatClient client, ClientChangeListener gui) {
 		mName = nameField;
 		mClient = client;
-		mIP = IPField;
+		mIP = ipField;
 		mPort = portField;
+		mGUI = gui;
 	}
 
 	/* (non-Javadoc)
@@ -39,8 +49,6 @@ public class StartChatListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		mClient.setUsername(mName.getText());
-		
-		// TODO: add validation...
 		
 		mClient.connectToServer(mIP.getText(), Integer.parseInt(mPort.getText()));
 	}

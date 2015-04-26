@@ -29,10 +29,12 @@ public class ChatClientImpl extends Thread implements ChatClient {
     private ObjectOutputStream out;
     private List<ClientChangeListener> listeners = new ArrayList<ClientChangeListener>();
 
+    @Override
     public void addClientChangeListener(ClientChangeListener listener) {
     	listeners.add(listener);
     }
     
+    @Override
     public void removeClientChangeListener(ClientChangeListener listener) {
     	listeners.remove(listener);
     }
@@ -133,6 +135,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
     
     /**
      * Creates and runs a ChatClientImpl
+     * 
      * @param args Command line arguments
      */
     public static void main(String[] args) {
@@ -188,6 +191,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
     
     /**
      * notify all listeners of successful connection to server
+     * 
      * @param host IP address of the ChatServer
      * @param port being used by the ChatServer
      */
@@ -199,6 +203,7 @@ public class ChatClientImpl extends Thread implements ChatClient {
     
     /**
      * notify all listeners that a message was sent
+     * 
      * @param message text of message being sent
      */
     private void notifyListenersMessageSent(String sender, String message) {

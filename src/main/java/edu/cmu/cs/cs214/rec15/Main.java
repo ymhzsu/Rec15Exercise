@@ -5,8 +5,6 @@ import javax.swing.JFrame;
 import edu.cmu.cs.cs214.rec15.client.ChatClient;
 import edu.cmu.cs.cs214.rec15.client.ChatClientImpl;
 import edu.cmu.cs.cs214.rec15.gui.ClientPanel;
-import edu.cmu.cs.cs214.rec15.server.ChatServer;
-import edu.cmu.cs.cs214.rec15.server.ChatServerImpl;
 
 /**
  * Main class for Recitation 15.
@@ -17,20 +15,20 @@ import edu.cmu.cs.cs214.rec15.server.ChatServerImpl;
 public class Main {
     
     /**
-     * Runs the chat master server.
+     * Runs the chat client gui
      * 
      * @param args Command line arguments
      */
     public static void main(String[] args) {
+    	// create new ChatClient instance
         ChatClient client = new ChatClientImpl();
-    	JFrame frame = new JFrame("Recitation 15 is Awesome");
+        // create new frame
+    	JFrame frame = new JFrame("Recitation 15");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        
+        // create new gui panel 
         ClientPanel clientPanel = new ClientPanel(client);
         frame.setContentPane(clientPanel);
-        
-        // Display the window.
+        // display the window.
         frame.pack();
         frame.setVisible(true);
         

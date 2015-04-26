@@ -10,28 +10,36 @@ import java.awt.event.KeyListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import edu.cmu.cs.cs214.rec15.client.ChatClient;
 import edu.cmu.cs.cs214.rec15.client.ClientChangeListener;
 
 /**
+ * ClientPanel a GUI for the ChatClient interface
+ * 
  * @author nora
  *
  */
 public class ClientPanel extends JPanel implements ClientChangeListener {
-	private static final int FIELD_WIDTH = 60;
-	private static final int INFO_WIDTH = 20;
-	private static final int AREA_WIDTH = FIELD_WIDTH + 10;
+	private static final int FIELD_WIDTH = Integer.parseInt("60");
+	private static final int INFO_WIDTH = Integer.parseInt("20");
+	private static final int AREA_WIDTH = FIELD_WIDTH + Integer.parseInt("10");
+	
 	private static final String USERNAME_TEXT = "Username: ";
     private static final String PORT_TEXT = "Host Port: ";
     private static final String IP_TEXT = "Host IP: ";
+    private static final String OK = "OK";
+    private static final String ERROR_ENCOUNTERED = "Error";
 	
-	private static final int AREA_HEIGHT = 20;
+	private static final int AREA_HEIGHT = Integer.parseInt("20");
 	
 	private ChatClient client; 
 	
@@ -50,9 +58,11 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	private final JButton startButton;
 	private final JButton sendButton;
 	
-	/**
+	/** 
 	 * Constructor for ClientPanel takes in an instance of the ChatClient
 	 * that it will be representing.
+	 * 
+	 * @param chatClient ChatClient the gui will be representing
 	 */
 	public ClientPanel(ChatClient chatClient) {
 		this.client = chatClient;
@@ -73,10 +83,11 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		chatArea.setWrapStyleWord(true);
 		
 		scrollPane = new JScrollPane(chatArea);
+        this.scrollPane.getViewport().setAutoscrolls(true);
 		
-		startButton = new JButton("Start");
-		
+		startButton = new JButton("Start");		
 		sendButton = new JButton("Send");
+		
 		this.setLayout(new BorderLayout());
 		this.add(createStartPanel(), BorderLayout.NORTH);
 		this.add(scrollPane, BorderLayout.CENTER);
@@ -85,8 +96,9 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		this.messageField.setEnabled(false);
 		scrollPane.setEnabled(false);
 		this.sendButton.setEnabled(false);
-		sendButton.addActionListener(new SendMessageListener(messageField, client));
-		startButton.addActionListener(new StartChatListener(usernameField, portField, ipField, client));
+		
+		sendButton.addActionListener(new SendMessageListener(messageField, client, this));
+		startButton.addActionListener(new StartChatListener(usernameField, portField, ipField, client, this));
 	}
 	
 	private JPanel createStartPanel() {
@@ -94,27 +106,32 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 		panel.setLayout(new FlowLayout());
 		panel.add(createUserInfoPanel());
 		panel.add(startButton);
+		
 		return panel;
 	}
 	
 	private JPanel createUserInfoPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		
 		JPanel namePanel = new JPanel();
 		namePanel.setLayout(new FlowLayout());
 		namePanel.add(this.usernameLabel);
 		namePanel.add(this.usernameField);
 		panel.add(namePanel);
+		
 		JPanel portPanel = new JPanel();
 		portPanel.setLayout(new FlowLayout());
 		portPanel.add(this.portLabel);
 		portPanel.add(this.portField);
 		panel.add(portPanel);
+		
 		JPanel ipPanel = new JPanel();		
 		ipPanel.setLayout(new FlowLayout());
 		ipPanel.add(this.ipLabel);
 		ipPanel.add(this.ipField);
 		panel.add(ipPanel);
+		
 		return panel;
 	}
 	
@@ -153,7 +170,7 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	 * @see edu.cmu.cs.cs214.rec15.gui.ClientChangeListener#startChat(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void startChat(String username, String port, String IP) {
+	public void startChat(String username, String port, String ip) {
 		this.messageField.setEnabled(true);
 		this.scrollPane.setEnabled(true);
 		this.sendButton.setEnabled(true);
@@ -167,6 +184,27 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
 	public void messageReceived(String username, String message) {
 		String newText = String.format(" %s: %s\n", username, message);
 		this.chatArea.append(newText);
+		chatArea.setCaretPosition(chatArea.getDocument().getLength());
+	}
+	
+	/**
+	 * Displays a pop-up error message
+	 * @param message text of message to be displayed
+	 */
+	@Override
+	public void displayErrorMessage(String message) {
+		JFrame frame = (JFrame) SwingUtilities.getRoot(this);
+		
+		Object[] options = {OK};
+		
+		int n = JOptionPane.showOptionDialog(frame,
+				message,
+				ERROR_ENCOUNTERED,
+				JOptionPane.YES_OPTION,
+				JOptionPane.INFORMATION_MESSAGE,
+				null,
+				options,
+				options[0]);
 	}
 
 }
