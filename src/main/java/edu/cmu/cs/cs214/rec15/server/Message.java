@@ -42,6 +42,9 @@ public class Message implements Serializable{
         return sender;
     }
     
-    
+    @Override
+    public String toString() {
+        return String.format("[%s] %s: %s", timestamp, sender, content);
+    }
 
 }

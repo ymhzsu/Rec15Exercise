@@ -26,14 +26,16 @@ public class ChatServerImpl extends Thread implements ChatServer {
         this.port = port;
         this.mExecutor = Executors.newFixedThreadPool(POOL_SIZE);
     }
-    
+
+
     public void run() {
         try {
             ServerSocket serverSocket = null;
             try {
                 serverSocket = new ServerSocket(port);
             } catch (IOException e) {
-                Log.e(TAG, "Could not open server socket on port " + port + ".", e);
+                Log.e(TAG,
+                        "Could not open server socket on port " + port + ".", e);
                 return;
             }
 
@@ -45,7 +47,9 @@ public class ChatServerImpl extends Thread implements ChatServer {
                     clients.add(clientSocket);
                     mExecutor.execute(new ClientHandler(clientSocket));
                 } catch (IOException e) {
-                    Log.e(TAG, "Error while listening for incoming connections.", e);
+                    Log.e(TAG,
+                            "Error while listening for incoming connections.",
+                            e);
                     break;
                 }
             }
@@ -73,21 +77,24 @@ public class ChatServerImpl extends Thread implements ChatServer {
     public ArrayList<Message> getMessages() {
         return (ArrayList<Message>) Collections.unmodifiableList(messages);
     }
-    
+
     private static class ClientHandler implements Runnable {
         private final Socket socket;
-        
+
+
         public ClientHandler(Socket socket) {
             this.socket = socket;
         }
 
+
         @Override
         public void run() {
             try {
-                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                ObjectInputStream in = new ObjectInputStream(
+                        socket.getInputStream());
                 while (true) {
                     Message msg = (Message) in.readObject();
-                    onNewMessage(msg);
+                    onNewMessage(socket, msg);
                 }
             } catch (IOException e) {
                 Log.e(TAG, "Connection lost.", e);
@@ -101,22 +108,28 @@ public class ChatServerImpl extends Thread implements ChatServer {
                 }
             }
         }
-        
-        private void onNewMessage(Message msg) {
+
+
+        private void onNewMessage(Socket from, Message msg) {
             System.out.println(msg.getContent());
-            for(Socket s : clients){
-                try {
-                    ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
-                    out.writeObject(msg);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+            for (Socket s : clients) {
+                if (!s.equals(from)) {
+                    try {
+                        ObjectOutputStream out = new ObjectOutputStream(
+                                s.getOutputStream());
+                        out.writeObject(msg);
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                 }
             }
         }
-        
+
     }
+
+
     public static void main(String[] args) {
-        (new ChatServerImpl(15213)).start();
+        (new ChatServerImpl(15214)).start();
     }
 }
