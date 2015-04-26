@@ -16,6 +16,7 @@ configurations.all {
 }
 
 findbugs {
+    reportLevel = "high"
     toolVersion = "3.0.0"
 }
 

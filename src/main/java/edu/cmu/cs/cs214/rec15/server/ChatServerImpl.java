@@ -13,22 +13,33 @@ import java.util.concurrent.Executors;
 
 import edu.cmu.cs.cs214.rec15.util.Log;
 
+/**
+ * Chat server that uses sockets to connect clients
+ * @author tsun
+ *
+ */
 public class ChatServerImpl extends Thread implements ChatServer {
     private static final String TAG = "SERVER";
     private static final int POOL_SIZE = Runtime.getRuntime()
             .availableProcessors();
     private int port;
     private final ExecutorService mExecutor;
-    private static List<Socket> clients = Collections.synchronizedList(new ArrayList<Socket>());
-    private static List<Message> messages = Collections.synchronizedList(new ArrayList<Message>());
+    private static List<Socket> clients = Collections
+            .synchronizedList(new ArrayList<Socket>());
+    private static List<Message> messages = Collections
+            .synchronizedList(new ArrayList<Message>());
 
-
-    public ChatServerImpl(int port) {
-        this.port = port;
+    /**
+     * Constructs a ChatServerImpl on the given port
+     * @param serverPort Port to run the server on
+     */
+    public ChatServerImpl(int serverPort) {
+        this.port = serverPort;
         this.mExecutor = Executors.newFixedThreadPool(POOL_SIZE);
     }
 
 
+    @Override
     public void run() {
         try {
             ServerSocket serverSocket = null;
@@ -63,6 +74,7 @@ public class ChatServerImpl extends Thread implements ChatServer {
             try {
                 serverSocket.close();
             } catch (IOException e) {
+                Log.e(TAG, "Unable to close connection");
                 // Ignore because we're about to exit anyway.
             }
         } finally {
@@ -84,8 +96,8 @@ public class ChatServerImpl extends Thread implements ChatServer {
 
 
     @Override
-    public void setPort(int port) {
-        this.port = port;
+    public void setPort(int serverPort) {
+        this.port = serverPort;
     }
 
 
@@ -119,8 +131,8 @@ public class ChatServerImpl extends Thread implements ChatServer {
         private final Socket socket;
 
 
-        public ClientHandler(Socket socket) {
-            this.socket = socket;
+        public ClientHandler(Socket clientSocket) {
+            this.socket = clientSocket;
         }
 
 
@@ -145,6 +157,7 @@ public class ChatServerImpl extends Thread implements ChatServer {
                     socket.close();
                 } catch (IOException e) {
                     // Ignore because we're about to exit anyway.
+                    Log.e(TAG, "Unable to close connection");
                 }
             }
         }

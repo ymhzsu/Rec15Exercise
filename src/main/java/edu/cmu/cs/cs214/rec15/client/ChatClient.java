@@ -1,5 +1,11 @@
 package edu.cmu.cs.cs214.rec15.client;
 
+/**
+ * Interface for chat clients
+ * 
+ * @author tsun
+ *
+ */
 public interface ChatClient {
 
     /**
@@ -9,7 +15,15 @@ public interface ChatClient {
      *            Message to be sent
      * @return True if the message was successfully sent, false otherwise
      */
-    public boolean sendMessage(String message);
+    boolean sendMessage(String message);
+
+
+    /**
+     * Gets the username of the client
+     * 
+     * @return Username of the client
+     */
+    String getUsername();
 
 
     /**
@@ -18,7 +32,7 @@ public interface ChatClient {
      * @param username
      *            Username of the client
      */
-    public void setUsername(String username);
+    void setUsername(String username);
 
 
     /**
@@ -29,12 +43,12 @@ public interface ChatClient {
      * @param port
      *            Port of the ChatServer
      */
-    public void connectToServer(String hostname, int port);
+    void connectToServer(String hostname, int port);
 
 
     /**
      * 
      * @return True if the client is connected to server, false otherwise
      */
-    public boolean isConnected();
+    boolean isConnected();
 }

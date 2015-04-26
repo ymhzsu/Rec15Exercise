@@ -2,6 +2,12 @@ package edu.cmu.cs.cs214.rec15.server;
 
 import java.util.ArrayList;
 
+/**
+ * Interface for chat servers
+ * 
+ * @author tsun
+ *
+ */
 public interface ChatServer {
 
     /**
@@ -9,7 +15,7 @@ public interface ChatServer {
      * 
      * @return number of clients currently connected to the server
      */
-    public int getNumClients();
+    int getNumClients();
 
 
     /**
@@ -17,7 +23,7 @@ public interface ChatServer {
      * 
      * @return message log of the server
      */
-    public ArrayList<Message> getMessages();
+    ArrayList<Message> getMessages();
 
 
     /**
@@ -26,17 +32,18 @@ public interface ChatServer {
      * @param port
      *            Port to listen on
      */
-    public void setPort(int port);
+    void setPort(int port);
 
 
     /**
      * Starts the master server
      */
-    public void startServer();
-    
+    void startServer();
+
+
     /**
      * Stops the server
      */
-    public void stopServer();
+    void stopServer();
 
 }
