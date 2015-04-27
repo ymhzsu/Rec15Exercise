@@ -126,17 +126,17 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
         namePanel.add(this.usernameField);
         panel.add(namePanel);
 
-        JPanel portPanel = new JPanel();
-        portPanel.setLayout(new FlowLayout());
-        portPanel.add(this.portLabel);
-        portPanel.add(this.portField);
-        panel.add(portPanel);
-
         JPanel ipPanel = new JPanel();
         ipPanel.setLayout(new FlowLayout());
         ipPanel.add(this.ipLabel);
         ipPanel.add(this.ipField);
         panel.add(ipPanel);
+
+        JPanel portPanel = new JPanel();
+        portPanel.setLayout(new FlowLayout());
+        portPanel.add(this.portLabel);
+        portPanel.add(this.portField);
+        panel.add(portPanel);
 
         return panel;
     }
@@ -197,9 +197,9 @@ public class ClientPanel extends JPanel implements ClientChangeListener {
      */
     @Override
     public void messageReceived(String username, String message) {
-        
+
         // TODO: Make the server show the timestamp of the received message
-        
+
         String newText = String.format(" %s: %s%n", username, message);
         this.chatArea.append(newText);
         chatArea.setCaretPosition(chatArea.getDocument().getLength());
