@@ -161,14 +161,25 @@ public class ChatServerImpl extends Thread implements ChatServer {
                 try {
                     socket.close();
                 } catch (IOException e) {
-                    // Ignore because we're about to exit anyway.
                     Log.e(TAG, "Unable to close connection");
                 }
             }
         }
+        // FUTURE FEATURE: Notify all clients when a new client joins the chat
+        // server
 
-
+        /**
+         * Callback for when a message is received by the server. Notifies all
+         * clients about the new message received
+         * 
+         * @param from
+         *            Socket where the new message originated
+         * @param msg
+         *            Message sent by the client
+         */
         private void onNewMessage(Socket from, Message msg) {
+            // Synchronize because we are iterating through all clients in a
+            // thread
             synchronized (clients) {
                 for (Socket s : clients) {
                     try {
