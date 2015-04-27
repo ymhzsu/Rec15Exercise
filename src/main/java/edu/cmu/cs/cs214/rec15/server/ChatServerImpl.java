@@ -177,7 +177,9 @@ public class ChatServerImpl extends Thread implements ChatServer {
          *            Message sent by the client
          */
         private void onNewMessage(Socket from, Message msg) {
-            // TODO: Add the server timestamp to the message received.
+            // TODO: Add the server timestamp to the message received. Note:
+            // Message#setServerTimestamp was created for you in the Message
+            // class.
 
             // Synchronize because we are iterating through all clients in a
             // thread
