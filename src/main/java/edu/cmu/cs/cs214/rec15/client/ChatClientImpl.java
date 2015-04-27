@@ -86,6 +86,8 @@ public class ChatClientImpl extends Thread implements ChatClient {
             Log.i(TAG, String.format("Connected to server %s:%d.", host, port));
             socket = new Socket(host, port);
             out = new ObjectOutputStream(socket.getOutputStream());
+            // Tell server who is connecting
+            out.writeObject(getUsername());
         } catch (IllegalArgumentException e) {
             Log.e(TAG, e.toString());
             return;

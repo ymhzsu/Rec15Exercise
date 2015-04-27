@@ -146,6 +146,9 @@ public class ChatServerImpl extends Thread implements ChatServer {
             try {
                 ObjectInputStream in = new ObjectInputStream(
                         socket.getInputStream());
+                // Get worker name
+                String username = (String) in.readObject();
+                onJoin(username);
                 while (true) {
                     Message msg = (Message) in.readObject();
                     onNewMessage(socket, msg);
@@ -167,7 +170,13 @@ public class ChatServerImpl extends Thread implements ChatServer {
         }
 
 
-        // TODO: Notify all clients when a new client joins the chat server
+        private void onJoin(String username) {
+            // TODO: Notify all clients that the given user has connected to the
+            // server. HINT: This will look very similar to onNewMessage but
+            // instead of notifying the clients of the new message, it will
+            // notify them of a joining user.
+        }
+
 
         /**
          * Callback for when a message is received by the server. Notifies all
