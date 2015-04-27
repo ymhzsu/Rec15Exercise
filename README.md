@@ -17,9 +17,13 @@ To run the server, run the `ChatServerImpl` class in the `edu.cmu.cs.cs214.rec15
 ```
 SERVER: Listening for incoming commands on port 15214.
 ```
+You may also run this server from the command line:
+```
+java -classpath bin/ edu.cmu.cs.cs214.rec15.server.ChatServerImpl
+```
 
 #### Running a Client
-To run the client, run the `Main` class in the `edu.cmu.cs.cs214.rec15` package. Once you run the client, a Java application will open.
+To run the client, run the `Main` class in the `edu.cmu.cs.cs214.rec15` package. Once you run the client, a Java application will open. Alternatively, you can use `gradle run` to start the client.
 
 ### Connecting to a Server
 ------
